@@ -1,12 +1,5 @@
-<%@page import="java.util.List"%>
-<%@page import="com.springbook.biz.board.impl.BoardDAO"%>
-<%@page import="com.springbook.biz.board.BoardVO"%>
 <%@page contentType="text/html; charset=EUC-KR"%>
-
-<%
-	// 세션에 저장된 글 목록을 꺼낸다.
-	List<BoardVO> boards = (List)session.getAttribute("boards");
-%>
+<%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -46,15 +39,15 @@
 					<th bgcolor="orange" width="100">조회수</th>
 				</tr>
 				
-				<% for(BoardVO board : boards) { %>
+				<c:forEach items="${boards }" var="board">
 					<tr>
-						<td><%= board.getSeq() %></td>
-						<td align="left"><a href="getBoard.do?seq=<%= board.getSeq() %>"><%= board.getTitle() %></a></td>
-						<td><%= board.getWriter() %></td>
-						<td><%= board.getRegDate() %></td>
-						<td><%= board.getCnt() %></td>
+						<td>${board.seq }</td>
+						<td align="left"><a href="getBoard.do?seq=${board.seq }">${board.title }</a></td>
+						<td>${board.title }</td>
+						<td>${board.regDate }</td>
+						<td>${board.cnt }</td>
 					</tr>
-				<% } %>
+				</c:forEach>
 			</table>
 			<br>
 			<a href="insertBoard.jsp">새 글 등록</a>
