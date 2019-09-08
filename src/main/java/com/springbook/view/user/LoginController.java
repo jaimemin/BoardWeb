@@ -5,11 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.springbook.biz.user.UserVO;
 import com.springbook.biz.user.impl.UserDAO;
-import com.springbook.view.controller.Controller;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 
 public class LoginController implements Controller {
 	@Override
-	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("로그인 처리");
 		
 		// 1. 사용자 입력 정보 추출
@@ -25,11 +27,14 @@ public class LoginController implements Controller {
 		UserVO user = userDAO.getUser(vo);
 		
 		// 3. 화면 네비게이션
+		ModelAndView model = new ModelAndView();
 		if (user != null) {
-			return "getBoards.do";
+			model.setViewName("redirect:getBoards.do");
 		} else {
-			return "login";
+			model.setViewName("redirect:login.jsp");
 		}
+		
+		return model;
 	}
 
 }
