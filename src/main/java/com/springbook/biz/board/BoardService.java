@@ -4,18 +4,18 @@ import java.util.List;
 
 public interface BoardService {
 	// 글 등록
-	void insertBoard(BoardVO vo);
+	void insertBoard(BoardVO boardVO);
 	
 	// 글 수정
-	void updateBoard(BoardVO vo);
+	void updateBoard(BoardVO boardVO);
 	
 	// 글 삭제
-	void deleteBoard(BoardVO vo);
+	void deleteBoard(BoardVO boardVO);
 	
 	// 글 상세 조회
-	BoardVO getBoard(BoardVO vo);
+	BoardVO getBoard(BoardVO boardVO);
 	
 	// 글 목록 조회
-	List<BoardVO> getBoards(BoardVO vo);
+	List<BoardVO> getBoards(BoardVO boardVO);
 	
 }

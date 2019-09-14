@@ -31,6 +31,16 @@ public class BoardDAOSpring {
 		= "SELECT * "
 				+ "FROM board "
 				+ "ORDER BY seq DESC";
+	private final String BOARDS_T
+	= "SELECT * "
+			+ "FROM board "
+			+ "WHERE title LIKE '%'||?||'%' "
+			+ "ORDER BY seq DESC";
+	private final String BOARDS_C
+		= "SELECT * "
+				+ "FROM board "
+				+ "WHERE content LIKE '%'||?||'%' "
+				+ "ORDER BY seq DESC";
 	
 	private JdbcTemplate jdbcTemplate;
 	
@@ -41,39 +51,47 @@ public class BoardDAOSpring {
 
 	// CRUD 기능의 메소드 구현
 	// 글 등록
-	public void insertBoard(BoardVO vo) {
+	public void insertBoard(BoardVO boardVO) {
 		System.out.println("===> Spring JDBC로 insertBoard() 기능 처리");
 		
-		jdbcTemplate.update(INSERT_BOARD, vo.getTitle(), vo.getWriter(), vo.getContent());
+		jdbcTemplate.update(INSERT_BOARD, boardVO.getTitle(), boardVO.getWriter(), boardVO.getContent());
 	}
 	
 	// 글 수정
-	public void updateBoard(BoardVO vo) {
+	public void updateBoard(BoardVO boardVO) {
 		System.out.println("===> Spring JDBC로 updateBoard() 기능 처리");
 		
-		jdbcTemplate.update(UPDATE_BOARD, vo.getTitle(), vo.getContent(), vo.getSeq());
+		jdbcTemplate.update(UPDATE_BOARD, boardVO.getTitle(), boardVO.getContent(), boardVO.getSeq());
 	}
 	
 	// 글 삭제
-	public void deleteBoard(BoardVO vo) {
+	public void deleteBoard(BoardVO boardVO) {
 		System.out.println("===> Spring JDBC로 delteBoard() 기능 처리");
 		
-		jdbcTemplate.update(DELETE_BOARD, vo.getSeq());
+		jdbcTemplate.update(DELETE_BOARD, boardVO.getSeq());
 	}
 	
 	// 글 상세 조회
-	public BoardVO getBoard(BoardVO vo) {
+	public BoardVO getBoard(BoardVO boardVO) {
 		System.out.println("===> Spring JDBC로 getBoard() 기능 처리");
 		
-		Object[] args = {vo.getSeq()};
+		Object[] args = {boardVO.getSeq()};
 		
 		return jdbcTemplate.queryForObject(GET_BOARD, args, new BoardRowMapper());
 	}
 	
 	// 글 목록 조회
-	public List<BoardVO> getBoards(BoardVO vo) {
+	public List<BoardVO> getBoards(BoardVO boardVO) {
 		System.out.println("===> Spring JDBC로 getBoards() 기능 처리");
 		
-		return jdbcTemplate.query(GET_BOARDS, new BoardRowMapper());
+		Object[] args = {boardVO.getSearchKeyword()};
+		
+		if (boardVO.getSearchCondition().equals("TITLE")) {
+			return jdbcTemplate.query(BOARDS_T,  args, new BoardRowMapper());
+		} else if (boardVO.getSearchCondition().equals("CONTENT")) {
+			return jdbcTemplate.query(BOARDS_C,  args, new BoardRowMapper());
+		}
+		
+		return null;
 	}
 }

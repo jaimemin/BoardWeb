@@ -11,9 +11,6 @@ public class LogAdvice {
 	@Pointcut("execution(* com.springbook.biz..*Impl.*(..))")
 	public void allPointcut() {}
 	
-//	@Pointcut("execution(* com.springbook.biz..*Impl.get*(..))")
-//	public void getPointcut() {}
-	
 	@Before("allPointcut()")
 	public void printLog() {
 		System.out.println("[공통 로그] 비즈니스 로직 수행 전 동작");
