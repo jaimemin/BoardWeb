@@ -11,7 +11,7 @@ import com.springbook.biz.board.BoardVO;
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
 	@Autowired
-	private BoardDAO boardDAO;
+	private BoardDAOMybatis boardDAO;
 	
 	@Override
 	public void insertBoard(BoardVO boardVO) {
